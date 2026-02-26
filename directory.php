@@ -1,3 +1,9 @@
+<?php
+session_start();
+require "db.php";
+
+$result = $conn->query("SELECT farm_id, farm_name, location, short_description FROM farms ORDER BY created_at DESC");
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,7 +18,11 @@
       <ul>
         <li><a href="directory.php">Directory</a></li>
         <li><a href="add-farm.php">Add Your Farm</a></li>
-        <li><a href="login.php">Login</a></li>
+        <?php if (isset($_SESSION["user_id"])): ?>
+  <li><a href="logout.php">Logout</a></li>
+<?php else: ?>
+  <li><a href="login.php">Login</a></li>
+<?php endif; ?>
       </ul>
     </nav>
   </header>
@@ -22,24 +32,21 @@
 
     <section>
       <ul>
-        <li>
-          <article>
-            <h2>Sunny Fields Farm</h2>
-            <p><strong>Location:</strong> Comox, BC</p>
-            <p>Organic vegetables grown locally using sustainable methods.</p>
-            <p><a href="farm.php">View Farm</a></p>
-          </article>
-        </li>
-
-        <li>
-          <article>
-            <h2>Mountain Meadow Farm</h2>
-            <p><strong>Location:</strong> Courtenay, BC</p>
-            <p>Fresh greens and seasonal produce grown with care.</p>
-            <p><a href="farm.php">View Farm</a></p>
-          </article>
-        </li>
-      </ul>
+<?php if ($result && $result->num_rows > 0): ?>
+  <?php while ($row = $result->fetch_assoc()): ?>
+    <li>
+      <article>
+        <h2><?php echo htmlspecialchars($row["farm_name"]); ?></h2>
+        <p><strong>Location:</strong> <?php echo htmlspecialchars($row["location"]); ?></p>
+        <p><?php echo htmlspecialchars($row["short_description"]); ?></p>
+        <p><a href="farm.php?id=<?php echo (int)$row["farm_id"]; ?>">View Farm</a></p>
+      </article>
+    </li>
+  <?php endwhile; ?>
+<?php else: ?>
+  <li><p>No farms available yet.</p></li>
+<?php endif; ?>
+</ul>
     </section>
   </main>
 
