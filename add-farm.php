@@ -1,3 +1,40 @@
+<?php
+session_start();
+require "db.php";
+
+$msg = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  $farm  = trim($_POST["farm_name"] ?? "");
+  $loc   = trim($_POST["location"] ?? "");
+  $ph    = trim($_POST["phone"] ?? "");
+  $desc  = trim($_POST["short_description"] ?? "");
+  $email = trim($_POST["email"] ?? "");
+  $pass  = $_POST["password"] ?? "";
+
+  if ($farm && $loc && $email && $pass) {
+    $hash = password_hash($pass, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("INSERT INTO users (email, password_hash) VALUES (?, ?)");
+    if ($stmt && $stmt->bind_param("ss", $email, $hash) && $stmt->execute()) {
+      $user_id = $stmt->insert_id;
+      $stmt->close();
+
+      $stmt = $conn->prepare("INSERT INTO farms (user_id, farm_name, location, phone, short_description) VALUES (?, ?, ?, ?, ?)");
+      $stmt->bind_param("issss", $user_id, $farm, $loc, $ph, $desc);
+      $stmt->execute();
+      $stmt->close();
+
+      header("Location: login.php");
+      exit();
+    }
+
+    $msg = "Email already exists or error occurred.";
+  } else {
+    $msg = "Fill all required fields.";
+  }
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,13 +49,18 @@
       <ul>
         <li><a href="directory.php">Directory</a></li>
         <li><a href="add-farm.php">Add Your Farm</a></li>
-        <li><a href="login.php">Login</a></li>
+        <?php if (isset($_SESSION["user_id"])): ?>
+  <li><a href="logout.php">Logout</a></li>
+<?php else: ?>
+  <li><a href="login.php">Login</a></li>
+<?php endif; ?>
       </ul>
     </nav>
   </header>
 
   <main>
     <h1>Add Your Farm</h1>
+    <?php if ($msg) echo "<p>" . htmlspecialchars($msg) . "</p>"; ?>
 
     <form method="post" action="add-farm.php">
         <legend>Farm details</legend>
