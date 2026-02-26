@@ -12,7 +12,11 @@
       <ul>
         <li><a href="directory.php">Directory</a></li>
         <li><a href="add-farm.php">Add Your Farm</a></li>
-        <li><a href="login.php">Farm Login</a></li>
+        <?php if (isset($_SESSION["user_id"])): ?>
+        <li><a href="logout.php">Logout</a></li>
+        <?php else: ?>
+        <li><a href="login.php">Login</a></li>
+        <?php endif; ?>
       </ul>
     </nav>
   </header>

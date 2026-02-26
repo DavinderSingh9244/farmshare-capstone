@@ -61,7 +61,7 @@ $stmt->close();
     <nav>
       <ul>
         <li><a href="directory.php">Directory</a></li>
-        <li><a href="farm.php">View My Farm</a></li>
+        <a href="farm.php?id=<?php echo (int)$farm["farm_id"]; ?>">View My Farm</a>
         <?php if (isset($_SESSION["user_id"])): ?>
         <li><a href="logout.php">Logout</a></li>
         <?php else: ?>

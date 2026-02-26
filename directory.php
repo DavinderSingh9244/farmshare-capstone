@@ -38,7 +38,7 @@ $result = $conn->query("SELECT farm_id, farm_name, location, short_description F
       <article>
         <h2><?php echo htmlspecialchars($row["farm_name"]); ?></h2>
         <p><strong>Location:</strong> <?php echo htmlspecialchars($row["location"]); ?></p>
-        <p><?php echo htmlspecialchars($row["short_description"]); ?></p>
+        <p><?php echo htmlspecialchars($row["short_description"] ?? ""); ?></p>
         <p><a href="farm.php?id=<?php echo (int)$row["farm_id"]; ?>">View Farm</a></p>
       </article>
     </li>
