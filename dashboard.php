@@ -1,3 +1,53 @@
+<?php
+session_start();
+require "db.php";
+
+if (!isset($_SESSION["user_id"])) { header("Location: login.php"); exit(); }
+
+$user_id = (int)$_SESSION["user_id"];
+$msg = "";
+
+$stmt = $conn->prepare("SELECT farm_id, farm_name, location FROM farms WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$farm = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+if (!$farm) die("No farm for this user.");
+
+/* Add product */
+if (isset($_POST["product_name"])) {
+  $name = trim($_POST["product_name"] ?? "");
+  $price = (float)($_POST["price"] ?? 0);
+  $qty = (int)($_POST["quantity"] ?? 0);
+
+  if ($name) {
+    $stmt = $conn->prepare("INSERT INTO products (farm_id, product_name, price, quantity) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("isdi", $farm["farm_id"], $name, $price, $qty);
+    $stmt->execute();
+    $stmt->close();
+    $msg = "Product added.";
+  }
+}
+
+/* Update quantity */
+if (isset($_POST["product_id"])) {
+  $pid = (int)($_POST["product_id"] ?? 0);
+  $newq = (int)($_POST["new_quantity"] ?? 0);
+
+  $stmt = $conn->prepare("UPDATE products SET quantity = ? WHERE product_id = ? AND farm_id = ?");
+  $stmt->bind_param("iii", $newq, $pid, $farm["farm_id"]);
+  $stmt->execute();
+  $stmt->close();
+  $msg = "Quantity updated.";
+}
+
+/* List products */
+$stmt = $conn->prepare("SELECT product_id, product_name, price, quantity FROM products WHERE farm_id = ? ORDER BY created_at DESC");
+$stmt->bind_param("i", $farm["farm_id"]);
+$stmt->execute();
+$products = $stmt->get_result();
+$stmt->close();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,14 +62,19 @@
       <ul>
         <li><a href="directory.php">Directory</a></li>
         <li><a href="farm.php">View My Farm</a></li>
+        <?php if (isset($_SESSION["user_id"])): ?>
         <li><a href="logout.php">Logout</a></li>
+        <?php else: ?>
+        <li><a href="login.php">Login</a></li>
+<?php endif; ?>
       </ul>
     </nav>
   </header>
 
   <main>
-    <h1>Farm Name: Sunny Fields Farm</h1>
-    <p><strong>Location:</strong> Comox, BC</p>
+    <h1>Farm Name: <?php echo htmlspecialchars($farm["farm_name"]); ?></h1>
+<p><strong>Location:</strong> <?php echo htmlspecialchars($farm["location"]); ?></p>
+    <?php if ($msg) echo "<p>" . htmlspecialchars($msg) . "</p>"; ?>
 
     <section>
       <h2>Add Product</h2>
@@ -66,40 +121,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Tomatoes</td>
-            <td>$4.99</td>
-            <td>10</td>
-            <td>
-              <form method="post" action="dashboard.php">
-                <p>
-                  <label>
-                    New quantity
-                    <input type="number" name="new_quantity" min="0" required />
-                  </label>
-                  <button type="submit">Update</button>
-                </p>
-              </form>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Lettuce</td>
-            <td>$2.99</td>
-            <td>15</td>
-            <td>
-              <form method="post" action="dashboard.php">
-                <p>
-                  <label>
-                    New quantity
-                    <input type="number" name="new_quantity" min="0" required />
-                  </label>
-                  <button type="submit">Update</button>
-                </p>
-              </form>
-            </td>
-          </tr>
-        </tbody>
+<?php if ($products->num_rows === 0): ?>
+  <tr><td colspan="4">No products added yet.</td></tr>
+<?php else: ?>
+  <?php while ($p = $products->fetch_assoc()): ?>
+    <tr>
+      <td><?php echo htmlspecialchars($p["product_name"]); ?></td>
+      <td>$<?php echo htmlspecialchars($p["price"]); ?></td>
+      <td><?php echo htmlspecialchars($p["quantity"]); ?></td>
+      <td>
+        <form method="post" action="dashboard.php">
+          <p>
+            <label>New quantity <input type="number" name="new_quantity" min="0" required /></label>
+            <input type="hidden" name="product_id" value="<?php echo (int)$p["product_id"]; ?>" />
+            <button type="submit">Update</button>
+          </p>
+        </form>
+      </td>
+    </tr>
+  <?php endwhile; ?>
+<?php endif; ?>
+</tbody>
       </table>
     </section>
   </main>
