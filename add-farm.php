@@ -1,16 +1,15 @@
 <?php
 session_start();
 require "db.php";
-
 $msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $farm  = trim($_POST["farm_name"] ?? "");
-  $loc   = trim($_POST["location"] ?? "");
-  $ph    = trim($_POST["phone"] ?? "");
-  $desc  = trim($_POST["short_description"] ?? "");
-  $email = trim($_POST["email"] ?? "");
-  $pass  = $_POST["password"] ?? "";
+  $farm = trim($_POST["farm_name"] ?? "");
+  $loc  = trim($_POST["location"] ?? "");
+  $ph   = trim($_POST["phone"] ?? "");
+  $desc = trim($_POST["short_description"] ?? "");
+  $email= trim($_POST["email"] ?? "");
+  $pass = $_POST["password"] ?? "";
 
   if ($farm && $loc && $email && $pass) {
     $hash = password_hash($pass, PASSWORD_DEFAULT);
@@ -28,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       header("Location: login.php");
       exit();
     }
-
     $msg = "Email already exists or error occurred.";
   } else {
     $msg = "Fill all required fields.";
