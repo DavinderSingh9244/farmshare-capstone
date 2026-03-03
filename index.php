@@ -159,9 +159,14 @@ Browse farm listings, explore fresh seasonal products, and support your local co
 
     </div>
 
-  <footer>
-    <p>Copyright © 2026 FarmShare. All Rights Reserved.</p>
-  </footer>
+  </div>
+</section>
+  </main>
+  <footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__text">Copyright © 2026 FarmShare. All Rights Reserved.</p>
+  </div>
+</footer>
 </body>
 <script>
    const items = document.querySelectorAll(".accordion__item");
