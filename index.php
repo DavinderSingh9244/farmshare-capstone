@@ -83,6 +83,37 @@ Browse farm listings, explore fresh seasonal products, and support your local co
     </a>
   </div>
 </section>
+<section class="section section--how-it-works">
+  <div class="container">
+
+    <h2 class="section__subtitle">How FarmShare Works</h2>
+
+    <div class="how-it-works">
+
+      <div class="how-it-works__item">  
+        <h3 class="how-it-works__title">Register Your Farm</h3>
+        <p class="how-it-works__text">
+          Farmers create an account and add their farm details to the platform.
+        </p>
+      </div>
+
+      <div class="how-it-works__item">
+        <h3 class="how-it-works__title">Get Listed</h3>
+        <p class="how-it-works__text">
+          Farms automatically appear in the public directory for customers to explore.
+        </p>
+      </div>
+
+      <div class="how-it-works__item">
+        <h3 class="how-it-works__title">Add Products</h3>
+        <p class="how-it-works__text">
+          Farmers manage their listings and showcase fresh products directly from their dashboard.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
     <section>
       <h2>Why Support Local Farmers?</h2>
       <ul>
