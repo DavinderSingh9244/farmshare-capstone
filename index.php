@@ -114,21 +114,66 @@ Browse farm listings, explore fresh seasonal products, and support your local co
     </div>
   </div>
 </section>
-    <section>
-      <h2>Why Support Local Farmers?</h2>
-      <ul>
-        <li>Fresher food</li>
-        <li>Supports local economy</li>
-        <li>More sustainable</li>
-      </ul>
-    </section>
-  </main>
+<section class="section section--why-support">
+  <div class="container">
+
+    <h2 class="section__subtitle">Why Support Local Farmers?</h2>
+
+    <div class="accordion" id="why-accordion">
+
+      <div class="accordion__item">
+        <button class="accordion__button" type="button" aria-expanded="false" aria-controls="why-panel-1" id="why-btn-1">
+          <span class="accordion__title">Fresher Food</span>
+          <span class="accordion__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion__panel" id="why-panel-1" role="region" aria-labelledby="why-btn-1">
+          <p class="accordion__text">
+            Local food often reaches you faster, so it tastes better and stays fresh longer.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__button" type="button" aria-expanded="false" aria-controls="why-panel-2" id="why-btn-2">
+          <span class="accordion__title">Supports Local Economy</span>
+          <span class="accordion__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion__panel" id="why-panel-2" role="region" aria-labelledby="why-btn-2">
+          <p class="accordion__text">
+            Buying local keeps money in your community and helps small farms grow.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__button" type="button" aria-expanded="false" aria-controls="why-panel-3" id="why-btn-3">
+          <span class="accordion__title">More Sustainable</span>
+          <span class="accordion__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion__panel" id="why-panel-3" role="region" aria-labelledby="why-btn-3">
+          <p class="accordion__text">
+            Shorter travel distance means less packaging, less waste, and a smaller footprint.
+          </p>
+        </div>
+      </div>
+
+    </div>
 
   <footer>
     <p>Copyright © 2026 FarmShare. All Rights Reserved.</p>
   </footer>
 </body>
 <script>
+   const items = document.querySelectorAll(".accordion__item");
+
+  items.forEach((item) => {
+    const btn = item.querySelector(".accordion__button");
+
+    btn.addEventListener("click", () => {
+      const isOpen = item.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  });
   const toggle = document.querySelector(".navbar__toggle");
   const panel  = document.querySelector(".navbar__panel");
   const closeBtn = document.querySelector(".navbar__close");
