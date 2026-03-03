@@ -4,7 +4,7 @@
   --color-secondary: #e0efe0;    
   --color-accent: #be9b4f;       
 
-  --color-light: #e6e7e8;        
+  --color-light: #f0f1f1;        
   --color-dark: #000000;         
   --color-white: #ffffff;
 
@@ -249,4 +249,67 @@ p {
   .navbar__link {
     padding: 0;
   }
+}
+
+
+/*  index page   */
+
+/*  hero   */
+.section--hero {
+  background-color: var(--color-light);
+  text-align: left;
+}
+.btn {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 200ms ease;
+}
+.btn--primary {
+  background-color: var(--color-primary); /* BLUE from root */
+  color: var(--color-white);
+}
+
+.btn--primary:hover {
+  opacity: 0.9;
+}
+
+@media (min-width: 768px) {
+
+  .section--hero {
+    background-image: url("../images/hero.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: var(--color-white);
+  }
+
+  .section--hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-3xl) 0;
+    text-align: center;
+    height: 50vh;
+  }
+
+  .section__title {
+    color: var(--color-white);
+    font-size: 40px;
+  }
+
+  .section__text {
+    color: var(--color-white);
+  }
+
 }
