@@ -313,3 +313,57 @@ p {
   }
 
 }
+/* HOW IT WORKS Section */
+
+.section--how-it-works {
+  background-color: var(--color-white);
+}
+
+.section__subtitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--space-xl);
+  color: var(--color-dark);
+}
+
+/* Layout */
+.how-it-works {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Card */
+.how-it-works__item {
+  padding: var(--space-lg);
+  background: rgba(127, 152, 189, 0.05); /* soft blue tint */
+  border-radius: var(--radius-md);
+}
+
+/* Title */
+.how-it-works__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  color: var(--color-dark);
+}
+
+/* Text */
+.how-it-works__text {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+
+  .how-it-works {
+    flex-direction: row;
+    gap: var(--space-2xl);
+  }
+
+  .how-it-works__item {
+    flex: 1;
+  }
+
+}
