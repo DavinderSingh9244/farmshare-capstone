@@ -67,21 +67,22 @@ function nav_active($file, $current_page) {
   </div>
 </header>
   <main>
-    <section>
-      <h1>Discover Fresh Food from Local Farmers Near You</h1>
-      <p>Browse local farm listings and see what fresh food they offer.</p>
-      <p><a href="directory.php">Explore Local Farms</a></p>
-    </section>
+    <section class="section section--hero">
+  <div class="container hero__content">
+    <h1 class="section__title">
+      Support Local. Eat Fresh. Live Better.
+    </h1>
 
-    <section>
-      <h2>How FarmShare Works</h2>
-      <ol>
-        <li>Farmers register their farm.</li>
-        <li>Farms appear in the directory automatically.</li>
-        <li>Farmers add products from the dashboard.</li>
-      </ol>
-    </section>
+    <p class="section__text">
+      FarmShare connects you directly with trusted local farmers in your area. 
+Browse farm listings, explore fresh seasonal products, and support your local community. 
+    </p>
 
+    <a href="directory.php" class="btn btn--primary">
+      Explore Local Farms
+    </a>
+  </div>
+</section>
     <section>
       <h2>Why Support Local Farmers?</h2>
       <ul>
