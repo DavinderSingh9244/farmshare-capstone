@@ -1,0 +1,35 @@
+:root {
+  /*  Colors  */
+  --color-primary: #5b86c7;      
+  --color-secondary: #d0dfd0;    
+  --color-accent: #be9b4f;       
+
+  --color-light: #e6e7e8;        
+  --color-dark: #3f4444;         
+  --color-white: #ffffff;
+
+  /* Semantic */
+  --color-bg: var(--color-white);
+  --color-text: var(--color-dark);
+  --color-heading: var(--color-dark);
+  --color-link: var(--color-secondary);
+
+  /*  Spacing   */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /*  Layout  */
+  --container-width: 1100px;
+  --container-padding: 16px;
+
+  /*  Typography  */
+  --font-body: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+
+}
