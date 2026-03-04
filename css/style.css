@@ -1046,3 +1046,136 @@ p {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+/* ================= FARM PAGE ================= */
+
+.farm__header {
+  background: var(--color-beige-light);
+  padding: var(--space-2xl) 0;
+}
+
+.farm__content {
+  background: var(--color-beige-light);
+  padding: 0 0 var(--space-3xl);
+}
+
+.farm__wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.farm__title {
+  margin: 0 0 var(--space-sm);
+  font-size: 28px;
+  font-weight: 650;
+  color: var(--color-dark);
+}
+
+.farm__meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-md);
+  display: grid;
+  gap: var(--space-sm);
+  opacity: 0.9;
+}
+
+.farm__meta-item {
+  margin: 0;
+  color: var(--color-dark);
+}
+
+.farm__desc {
+  margin: 0;
+  max-width: 700px;
+  opacity: 0.85;
+  line-height: 1.7;
+  color: var(--color-dark);
+}
+
+/* Panel card */
+.farm__panel {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.farm__panel-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.farm__heading {
+  margin: 0;
+  font-weight: 650;
+  color: var(--color-dark);
+}
+
+.farm__back {
+  align-self: flex-start;
+  text-decoration: none;
+  color: var(--color-primary);
+  font-weight: 650;
+}
+
+.farm__back:hover {
+  text-decoration: underline;
+}
+
+.farm__empty {
+  margin: 0;
+  opacity: 0.8;
+  color: var(--color-dark);
+}
+
+/* Products grid */
+.farm-products {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+.farm-product {
+  background: var(--color-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  transition: transform 200ms ease;
+}
+
+.farm-product:hover {
+  transform: translateY(-4px);
+}
+
+.farm-product__title {
+  margin: 0 0 var(--space-sm);
+  font-weight: 650;
+  font-size: 18px;
+  color: var(--color-dark);
+}
+
+.farm-product__meta {
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.6;
+  color: var(--color-dark);
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .farm__title {
+    font-size: 34px;
+  }
+
+  .farm__panel-head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (min-width: 992px) {
+  .farm-products {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

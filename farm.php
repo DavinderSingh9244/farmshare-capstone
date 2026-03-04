@@ -84,42 +84,68 @@ $stmt->close();
   </div>
 </header>
 
-  <main>
-    <article>
-      <h1><?php echo htmlspecialchars($farm["farm_name"]); ?></h1>
+  <main class="farm">
 
-      <p><strong>Location:</strong> <?php echo htmlspecialchars($farm["location"]); ?></p>
-      <?php if (!empty($farm["phone"])): ?>
-    <p><strong>Phone:</strong> <?php echo htmlspecialchars($farm["phone"]); ?></p>
-    <?php endif; ?>
+  <!-- Header area -->
+  <section class="farm__header">
+    <div class="container farm__wrap">
+      <h1 class="farm__title"><?php echo htmlspecialchars($farm["farm_name"]); ?></h1>
+
+      <ul class="farm__meta">
+        <li class="farm__meta-item">
+          <strong>Location:</strong> <?php echo htmlspecialchars($farm["location"]); ?>
+        </li>
+
+        <?php if (!empty($farm["phone"])): ?>
+          <li class="farm__meta-item">
+            <strong>Phone:</strong> <?php echo htmlspecialchars($farm["phone"]); ?>
+          </li>
+        <?php endif; ?>
+      </ul>
+
       <?php if (!empty($farm["short_description"])): ?>
-  <p><?php echo htmlspecialchars($farm["short_description"]); ?></p>
-<?php endif; ?>
+        <p class="farm__desc"><?php echo htmlspecialchars($farm["short_description"]); ?></p>
+      <?php endif; ?>
+    </div>
+  </section>
 
-      <section>
-        <h2>Products</h2>
+  <!-- Products -->
+  <section class="farm__content">
+    <div class="container farm__wrap">
+
+      <div class="farm__panel">
+        <div class="farm__panel-head">
+          <h2 class="farm__heading">Products</h2>
+          <a class="farm__back" href="directory.php">← Back to Directory</a>
+        </div>
 
         <?php if ($products->num_rows === 0): ?>
-  <p>No products added yet.</p>
-<?php else: ?>
-  <ul>
-    <?php while ($p = $products->fetch_assoc()): ?>
-      <li>
-        <article>
-          <p><strong><?php echo htmlspecialchars($p["product_name"]); ?></strong></p>
-          <p>Price: $<?php echo htmlspecialchars($p["price"]); ?></p>
-          <p>Quantity: <?php echo htmlspecialchars($p["quantity"]); ?></p>
-        </article>
-      </li>
-    <?php endwhile; ?>
-  </ul>
-<?php endif; ?>
-      </section>
-    </article>
-  </main>
+          <p class="farm__empty">No products added yet.</p>
+        <?php else: ?>
+          <div class="farm-products">
+            <?php while ($p = $products->fetch_assoc()): ?>
+              <article class="farm-product">
+                <h3 class="farm-product__title"><?php echo htmlspecialchars($p["product_name"]); ?></h3>
 
-  <footer>
-    <p>Copyright © 2026 FarmShare. All Rights Reserved.</p>
-  </footer>
+                <p class="farm-product__meta">
+                  <strong>Price:</strong> $<?php echo htmlspecialchars($p["price"]); ?><br>
+                  <strong>Quantity:</strong> <?php echo htmlspecialchars($p["quantity"]); ?>
+                </p>
+              </article>
+            <?php endwhile; ?>
+          </div>
+        <?php endif; ?>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+ <footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__text">© 2026 FarmShare. All Rights Reserved.</p>
+  </div>
+</footer>
 </body>
 </html>
