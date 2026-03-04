@@ -99,65 +99,82 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   </div>
 </header>
 
-  <main>
-    <h1>Add Your Farm</h1>
-    <?php if ($msg) echo "<p>" . htmlspecialchars($msg) . "</p>"; ?>
+  <main class="add-farm">
 
-    <form method="post" action="add-farm.php">
-        <legend>Farm details</legend>
+  <section class="add-farm__header">
+    <div class="container">
+      <h1 class="add-farm__title">Add Your Farm</h1>
+      <p class="add-farm__subtitle">
+        Create your listing so customers can discover your farm in the directory.
+      </p>
+    </div>
+  </section>
 
-        <p>
-          <label>
-            Farm name
-            <input type="text" name="farm_name" required />
-          </label>
+  <section class="add-farm__content">
+    <div class="container ">
+
+      <?php if ($msg): ?>
+        <p class="add-farm__message">
+          <?php echo htmlspecialchars($msg); ?>
         </p>
+      <?php endif; ?>
 
-        <p>
-          <label>
-            Location
-            <input type="text" name="location" required />
-          </label>
-        </p>
+      <form method="post" action="add-farm.php" class="form">
 
-        <p>
-          <label>
-            Phone
-            <input type="tel" name="phone" />
-          </label>
-        </p>
+        <fieldset class="form__fieldset">
+          <legend class="form__legend">Farm Details</legend>
 
-        <p>
-          <label>
-            Short description
-            <textarea name="short_description" rows="4"></textarea>
-          </label>
-        </p>
+          <div class="form__group">
+            <label class="form__label">Farm name</label>
+            <input class="form__control" type="text" name="farm_name" required>
+          </div>
 
-        <legend>Account</legend>
+          <div class="form__group">
+            <label class="form__label">Location</label>
+            <input class="form__control" type="text" name="location" required>
+          </div>
 
-        <p>
-          <label>
-            Email
-            <input type="email" name="email" required />
-          </label>
-        </p>
+          <div class="form__group">
+            <label class="form__label">Phone</label>
+            <input class="form__control" type="tel" name="phone">
+          </div>
 
-        <p>
-          <label>
-            Password
-            <input type="password" name="password" required />
-          </label>
-        </p>
+          <div class="form__group">
+            <label class="form__label">Short description</label>
+            <textarea class="form__control" name="short_description" rows="4"></textarea>
+          </div>
+        </fieldset>
 
-        <p>
-          <button type="submit">Register</button>
-        </p>
-    </form>
-  </main>
+        <fieldset class="form__fieldset">
+          <legend class="form__legend">Account</legend>
 
-  <footer>
-    <p>Copyright © 2026 FarmShare. All Rights Reserved.</p>
-  </footer>
+          <div class="form__group">
+            <label class="form__label">Email</label>
+            <input class="form__control" type="email" name="email" required>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label">Password</label>
+            <input class="form__control" type="password" name="password" required>
+          </div>
+        </fieldset>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">
+            Register
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </section>
+
+</main>
+  <footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__text">© 2026 FarmShare. All Rights Reserved.</p>
+  </div>
+</footer>
 </body>
 </html>
