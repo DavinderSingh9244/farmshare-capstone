@@ -72,19 +72,26 @@ $result = $conn->query("SELECT farm_id, farm_name, location, short_description F
 
   <main class="directory">
   <section class="directory__header">
-    <div class="container">
+  <div class="container directory__header-inner">
+
+    <div class="directory__intro">
       <h1 class="directory__title">Local Farms Directory</h1>
       <p class="directory__subtitle">
         Browse local farms and discover fresh products near you.
       </p>
-
-      <!-- UI only (we’ll connect search later) -->
-      <form class="directory__search" action="#" method="get">
-        <input class="directory__input" type="text" name="q" placeholder="Search by farm name or location..." />
-        <button class="directory__button" type="submit">Search</button>
-      </form>
     </div>
-  </section>
+
+    <form class="directory__search" action="#" method="get">
+      <input class="directory__input" type="text"
+             name="q"
+             placeholder="Search by farm name or location..." />
+      <button class="directory__button" type="submit">
+        Search
+      </button>
+    </form>
+
+  </div>
+</section>
 
   <section class="directory__list">
     <div class="container">

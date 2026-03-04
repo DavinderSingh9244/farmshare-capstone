@@ -459,3 +459,193 @@ p {
   font-size: 14px;
   line-height: 1.6;
 }
+/* ================= DIRECTORY PAGE ================= */
+
+/* Header area */
+.directory__header {
+  background: var(--color-beige-light);
+  padding: var(--space-2xl) 0;
+}
+.directory__header-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.directory__title {
+  margin: 0 0 var(--space-sm);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+.directory__subtitle {
+  margin: 0 0 var(--space-lg);
+  max-width: 600px;
+  color: var(--color-dark);
+  opacity: 0.85;
+}
+
+/* Search UI */
+.directory__search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.directory__input {
+  width: 100%;
+  padding: var(--space-sm);
+  font: inherit;
+  background: var(--color-white);
+  color: var(--color-dark);
+}
+
+.directory__button {
+  padding: var(--space-md);
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* List section */
+.directory__list {
+  background-color: var(--color-beige-light);
+  padding: 0 0 var(--space-2xl) 0;
+}
+
+/* ================= FARM GRID  ================= */
+
+.farm-grid {
+  display: grid;
+  gap: var(--space-xl);
+  grid-template-columns: 1fr; /* mobile */
+}
+
+/* Tablet: 2 per row */
+@media (min-width: 600px) {
+  .farm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 3 per row */
+@media (min-width: 992px) {
+  .farm-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+   .directory__title {
+    font-size: 34px;
+  }
+
+  .directory__header-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .directory__intro {
+    max-width: 55%;
+  }
+
+  .directory__search {
+    flex-direction: row;
+    align-items: center;
+    width: 460px; /* controls how wide the search is on desktop */
+    gap: var(--space-sm);
+  }
+
+  .directory__input {
+    flex: 1;
+  }
+
+  .directory__button {
+    width: auto; /* remove fixed 160px */
+    padding: var(--space-md) var(--space-lg);
+  }
+}
+
+/* ================= FARM CARD ================= */
+
+.farm-card {
+  background: var(--color-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  justify-content: space-between;
+
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.farm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.farm-card__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+.farm-card__meta {
+  margin: 0;
+  color: var(--color-dark);
+  opacity: 0.9;
+}
+
+.farm-card__label {
+  font-weight: 800;
+}
+
+.farm-card__text {
+  margin: 0;
+  color: var(--color-dark);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.farm-card__text--muted {
+  opacity: 0.6;
+}
+
+/* Button stays at bottom */
+.farm-card__link {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* ================= EMPTY STATE ================= */
+
+.directory__empty {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-xl);
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* ================= RESPONSIVE TWEAKS ================= */
+
+@media (min-width: 768px) {
+  .directory__title {
+    font-size: 34px;
+  }
+
+  .directory__search {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .directory__button {
+    width: 160px;
+  }
+}
