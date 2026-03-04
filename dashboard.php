@@ -52,6 +52,15 @@ $stmt->bind_param("i", $farm["farm_id"]);
 $stmt->execute();
 $products = $stmt->get_result();
 $stmt->close();
+$stmt = $conn->prepare("SELECT product_name, price, quantity 
+                        FROM products 
+                        WHERE farm_id = ? 
+                        ORDER BY created_at DESC 
+                        LIMIT 1");
+$stmt->bind_param("i", $farm["farm_id"]);
+$stmt->execute();
+$newest_product = $stmt->get_result()->fetch_assoc();
+$stmt->close();
 ?>
 <!doctype html>
 <html lang="en">
@@ -114,80 +123,125 @@ $stmt->close();
   </div>
 </header>
 
-  <main>
-    <h1>Farm Name: <?php echo htmlspecialchars($farm["farm_name"]); ?></h1>
-<p><strong>Location:</strong> <?php echo htmlspecialchars($farm["location"]); ?></p>
-    <?php if ($msg) echo "<p>" . htmlspecialchars($msg) . "</p>"; ?>
+ <!-- ✅ MAIN HTML (Replace your <main>...</main> only) -->
+<main class="dashboard">
+  <section class="dashboard__content">
+    <div class="container dashboard__wrap">
 
-    <section>
-      <h2>Add Product</h2>
+      <?php if ($msg): ?>
+        <p class="dashboard__message"><?php echo htmlspecialchars($msg); ?></p>
+      <?php endif; ?>
 
-      <form method="post" action="dashboard.php">
-          <legend>Product details</legend>
+      <!-- TOP: Left 50% (Farm big + 2 cards below) | Right 50% (Form) -->
+      <section class="dashboard__top">
 
-          <p>
-            <label>
-              Product name
-              <input type="text" name="product_name" required />
-            </label>
-          </p>
+        <!-- LEFT COLUMN -->
+        <div class="dashboard__left">
 
-          <p>
-            <label>
-              Price
-              <input type="number" name="price" step="0.01" min="0" required />
-            </label>
-          </p>
+          <!-- FARM CARD (full width of left column) -->
+          <article class="stat-card stat-card--farm">
+            <p class="stat-card__label">Farm</p>
+            <h2 class="stat-card__value"><?php echo htmlspecialchars($farm["farm_name"]); ?></h2>
+            <p class="stat-card__meta"><?php echo htmlspecialchars($farm["location"]); ?></p>
+          </article>
 
-          <p>
-            <label>
-              Quantity
-              <input type="number" name="quantity" min="0" required />
-            </label>
-          </p>
+          <!-- TOTAL + NEWEST below farm card -->
+          <div class="dashboard__mini-stats">
 
-          <p><button type="submit">Add Product</button></p>
-      </form>
-    </section>
+            <article class="stat-card">
+              <p class="stat-card__label">Total Products</p>
+              <h2 class="stat-card__value"><?php echo (int)$products->num_rows; ?></h2>
+              <p class="stat-card__meta">Listed in your inventory</p>
+            </article>
 
-    <section>
-      <h2>Your Current Products</h2>
+            <article class="stat-card stat-card--newest">
+              <p class="stat-card__label">Newest Product</p>
 
-      <table>
-        <caption>Products listed for your farm</caption>
-        <thead>
-          <tr>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Edit quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-<?php if ($products->num_rows === 0): ?>
-  <tr><td colspan="4">No products added yet.</td></tr>
-<?php else: ?>
-  <?php while ($p = $products->fetch_assoc()): ?>
-    <tr>
-      <td><?php echo htmlspecialchars($p["product_name"]); ?></td>
-      <td>$<?php echo htmlspecialchars($p["price"]); ?></td>
-      <td><?php echo htmlspecialchars($p["quantity"]); ?></td>
-      <td>
-        <form method="post" action="dashboard.php">
-          <p>
-            <label>New quantity <input type="number" name="new_quantity" min="0" required /></label>
-            <input type="hidden" name="product_id" value="<?php echo (int)$p["product_id"]; ?>" />
-            <button type="submit">Update</button>
-          </p>
-        </form>
-      </td>
-    </tr>
-  <?php endwhile; ?>
-<?php endif; ?>
-</tbody>
-      </table>
-    </section>
-  </main>
+              <?php if (!empty($newest_product)): ?>
+                <h2 class="stat-card__value"><?php echo htmlspecialchars($newest_product["product_name"]); ?></h2>
+                <p class="stat-card__meta">
+                  $<?php echo htmlspecialchars($newest_product["price"]); ?>
+                  • Qty: <?php echo htmlspecialchars($newest_product["quantity"]); ?>
+                </p>
+              <?php else: ?>
+                <h2 class="stat-card__value">No products yet</h2>
+                <p class="stat-card__meta">Add your first product</p>
+              <?php endif; ?>
+
+            </article>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <aside class="dashboard__panel dashboard__panel--add">
+          <h2 class="dashboard__heading">Add Product</h2>
+
+          <form method="post" action="dashboard.php" class="form form--compact">
+
+            <div class="form__group">
+              <label class="form__label">Product name</label>
+              <input class="form__control" type="text" name="product_name" required>
+            </div>
+
+            <div class="form__group">
+              <label class="form__label">Price</label>
+              <input class="form__control" type="number" name="price" step="0.01" min="0" required>
+            </div>
+
+            <div class="form__group">
+              <label class="form__label">Quantity</label>
+              <input class="form__control" type="number" name="quantity" min="0" required>
+            </div>
+
+            <div class="form__actions">
+              <button class="btn btn--primary" type="submit">Add Product</button>
+            </div>
+
+          </form>
+        </aside>
+
+      </section>
+
+      <!-- PRODUCTS BELOW -->
+      <section class="dashboard__bottom">
+        <div class="dashboard__panel dashboard__panel--products">
+          <h2 class="dashboard__heading">Your Products</h2>
+
+          <?php if ($products->num_rows === 0): ?>
+            <p class="dashboard__empty">No products added yet.</p>
+          <?php else: ?>
+            <div class="product-grid">
+              <?php while ($p = $products->fetch_assoc()): ?>
+                <article class="product-card">
+                  <h3 class="product-card__title"><?php echo htmlspecialchars($p["product_name"]); ?></h3>
+
+                  <p class="product-card__meta">
+                    <strong>Price:</strong> $<?php echo htmlspecialchars($p["price"]); ?><br>
+                    <strong>Quantity:</strong> <?php echo htmlspecialchars($p["quantity"]); ?>
+                  </p>
+
+                  <form method="post" action="dashboard.php" class="product-card__form">
+                    <input class="form__control product-card__input"
+                           type="number"
+                           name="new_quantity"
+                           min="0"
+                           required
+                           placeholder="New qty">
+                    <input type="hidden" name="product_id" value="<?php echo (int)$p["product_id"]; ?>">
+                    <button class="btn btn--primary btn--small" type="submit">Update</button>
+                  </form>
+                </article>
+              <?php endwhile; ?>
+            </div>
+          <?php endif; ?>
+
+        </div>
+      </section>
+
+    </div>
+  </section>
+</main>
 
   <footer>
     <p>Copyright © 2026 FarmShare. All Rights Reserved.</p>
