@@ -88,31 +88,54 @@ function nav_active($file, $current_page) {
   </div>
 </header>
 
-    <main>
-      <h1>Log In</h1>
-      <?php if ($msg) echo "<p>" . htmlspecialchars($msg) . "</p>"; ?>
+    <main class="login">
 
-      <form method="post" action="login.php">
-          <p>
-            <label>
-              Email
-              <input type="email" name="email" required />
-            </label>
-          </p>
+  <section class="login__header">
+    <div class="container login__narrow">
+      <h1 class="login__title">Log In</h1>
+      <p class="login__subtitle">
+        Access your dashboard to manage your farm listing and products.
+      </p>
+    </div>
+  </section>
 
-          <p>
-            <label>
-              Password
-              <input type="password" name="password" required />
-            </label>
-          </p>
+  <section class="login__content">
+    <div class="container login__narrow">
 
-          <p><button type="submit">Login</button></p>
+      <?php if ($msg): ?>
+        <p class="login__message"><?php echo htmlspecialchars($msg); ?></p>
+      <?php endif; ?>
+
+      <form method="post" action="login.php" class="form">
+
+        <div class="form__group">
+          <label class="form__label">Email</label>
+          <input class="form__control" type="email" name="email" required>
+        </div>
+
+        <div class="form__group">
+          <label class="form__label">Password</label>
+          <input class="form__control" type="password" name="password" required>
+        </div>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">Login</button>
+        </div>
+        <p class="login__register">
+  Don’t have an account?
+  <a href="add-farm.php" class="login__register-link">Register here</a>
+</p>
+
       </form>
-    </main>
 
-    <footer>
-      <p>Copyright © 2026 FarmShare. All Rights Reserved.</p>
-    </footer>
+    </div>
+  </section>
+
+</main>
+    <footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__text">© 2026 FarmShare. All Rights Reserved.</p>
+  </div>
+</footer>
   </body>
   </html>

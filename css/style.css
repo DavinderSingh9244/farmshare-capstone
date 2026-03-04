@@ -724,7 +724,7 @@ p {
 /*  FORM */
 
 .form {
-  background: var(--color-white);
+  background: var(--color-light);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   padding: var(--space-xl);
@@ -793,5 +793,71 @@ p {
 
   .form__actions .btn {
     width: auto;
+  }
+}
+
+/* ================= LOGIN PAGE ================= */
+
+.login__header {
+  background: var(--color-beige-light);
+  padding: var(--space-2xl) 0;
+}
+
+.login__content {
+  background: var(--color-beige-light);
+  padding:0 0 var(--space-2xl) 0;
+}
+
+/* narrow wrapper so heading aligns with form */
+.login__narrow {
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.login__title {
+  margin: 0 0 var(--space-sm);
+  font-size: 28px;
+  font-weight: 650;
+  color: var(--color-dark);
+}
+
+.login__subtitle {
+  margin: 0;
+  max-width: 600px;
+  opacity: 0.85;
+  color: var(--color-dark);
+}
+
+/* message */
+.login__message {
+  margin: 0 0 var(--space-lg);
+  padding: var(--space-md);
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-md);
+  color: var(--color-dark);
+}
+
+.login__register {
+  margin-top: var(--space-md);
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-dark);
+  opacity: 0.85;
+}
+
+.login__register-link {
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login__register-link:hover {
+  text-decoration: underline;
+}
+
+/* desktop */
+@media (min-width: 768px) {
+  .login__title {
+    font-size: 34px;
   }
 }
