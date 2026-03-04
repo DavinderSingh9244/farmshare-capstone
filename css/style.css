@@ -112,7 +112,7 @@ p {
 
 .navbar__logo {
   color: var(--color-dark);
-  font-weight: 800;
+  font-weight: 650;
   font-size: 18px;
   text-decoration: none;
 }
@@ -132,7 +132,7 @@ p {
 .navbar__link--active {
   border-bottom: 2px solid var(--color-primary);
   padding-bottom: 4px;
-  font-weight: 800;
+  font-weight: 650;
 }
 
 .navbar__nav--desktop {
@@ -475,7 +475,7 @@ p {
 .directory__title {
   margin: 0 0 var(--space-sm);
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--color-dark);
 }
 
@@ -591,7 +591,7 @@ p {
 .farm-card__title {
   margin: 0;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 650;
   color: var(--color-dark);
 }
 
@@ -602,7 +602,7 @@ p {
 }
 
 .farm-card__label {
-  font-weight: 800;
+  font-weight: 650;
 }
 
 .farm-card__text {
