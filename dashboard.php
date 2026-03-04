@@ -79,13 +79,12 @@ $stmt->close();
     <!-- Desktop nav -->
     <nav class="navbar__nav navbar__nav--desktop" aria-label="Primary navigation">
       <ul class="navbar__list navbar__list--desktop">
-        <li class="navbar__item"><a href="directory.php" class="navbar__link<?php echo nav_active('directory.php', $current_page); ?>">Directory</a></li>
-        <li class="navbar__item"><a href="add-farm.php" class="navbar__link<?php echo nav_active('add-farm.php', $current_page); ?>">Add Your Farm</a></li>
+        <li class="navbar__item"><a href="dashboard.php" class="navbar__link<?php echo nav_active('dashboard.php', $current_page); ?>">Dashboard</a></li>
 
         <?php if (isset($_SESSION["user_id"])): ?>
           <li class="navbar__item"><a href="logout.php" class="navbar__link<?php echo nav_active('logout.php', $current_page); ?>">Logout</a></li>
         <?php else: ?>
-          <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Login</a></li>
+          <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Farmer Login</a></li>
         <?php endif; ?>
       </ul>
     </nav>
@@ -115,7 +114,7 @@ $stmt->close();
           <?php if (isset($_SESSION["user_id"])): ?>
             <li class="navbar__item"><a href="logout.php" class="navbar__link<?php echo nav_active('logout.php', $current_page); ?>">Logout</a></li>
           <?php else: ?>
-            <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Login</a></li>
+            <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">FarmerLogin</a></li>
           <?php endif; ?>
         </ul>
       </nav>

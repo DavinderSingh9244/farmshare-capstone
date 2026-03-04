@@ -29,7 +29,7 @@ function nav_active($file, $current_page) {
         <?php if (isset($_SESSION["user_id"])): ?>
           <li class="navbar__item"><a href="logout.php" class="navbar__link<?php echo nav_active('logout.php', $current_page); ?>">Logout</a></li>
         <?php else: ?>
-          <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Login</a></li>
+          <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Farmer Login</a></li>
         <?php endif; ?>
       </ul>
     </nav>
@@ -59,7 +59,7 @@ function nav_active($file, $current_page) {
           <?php if (isset($_SESSION["user_id"])): ?>
             <li class="navbar__item"><a href="logout.php" class="navbar__link<?php echo nav_active('logout.php', $current_page); ?>">Logout</a></li>
           <?php else: ?>
-            <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Login</a></li>
+            <li class="navbar__item"><a href="login.php" class="navbar__link<?php echo nav_active('login.php', $current_page); ?>">Farmer Login</a></li>
           <?php endif; ?>
         </ul>
       </nav>
