@@ -7,7 +7,27 @@ function nav_active($file, $current_page) {
 } 
 require "db.php";
 
-$result = $conn->query("SELECT farm_id, farm_name, location, short_description FROM farms ORDER BY created_at DESC");
+$q = trim($_GET["q"] ?? "");
+
+if ($q !== "") {
+  $like = "%" . $q . "%";
+  $stmt = $conn->prepare(
+    "SELECT farm_id, farm_name, location, short_description
+     FROM farms
+     WHERE farm_name LIKE ? OR location LIKE ?
+     ORDER BY farm_name ASC"
+  );
+  $stmt->bind_param("ss", $like, $like);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $stmt->close();
+} else {
+  $result = $conn->query(
+    "SELECT farm_id, farm_name, location, short_description
+     FROM farms
+     ORDER BY farm_name ASC"
+  );
+}
 ?>
 <!doctype html>
 <html lang="en">
