@@ -101,9 +101,10 @@ if ($q !== "") {
       </p>
     </div>
 
-    <form class="directory__search" action="#" method="get">
+    <form class="directory__search" action="directory.php" method="get">
       <input class="directory__input" type="text"
              name="q"
+             value="<?php echo htmlspecialchars($q); ?>"
              placeholder="Search by farm name or location..." />
       <button class="directory__button" type="submit">
         Search
