@@ -17,7 +17,10 @@ $farm = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 if (!$farm) die("Farm not found.");
 
-$stmt = $conn->prepare("SELECT product_name, price, quantity FROM products WHERE farm_id = ? ORDER BY created_at DESC");
+$stmt = $conn->prepare("SELECT product_name, price, quantity, product_image
+                        FROM products
+                        WHERE farm_id = ?
+                        ORDER BY created_at DESC");
 $stmt->bind_param("i", $farm_id);
 $stmt->execute();
 $products = $stmt->get_result();
@@ -125,6 +128,11 @@ $stmt->close();
           <div class="farm-products">
             <?php while ($p = $products->fetch_assoc()): ?>
               <article class="farm-product">
+                <?php if (!empty($p["product_image"])): ?>
+                <img class="product-card__img"
+                    src="<?php echo htmlspecialchars($p["product_image"]); ?>"
+                    alt="<?php echo htmlspecialchars($p["product_name"]); ?>">
+              <?php endif; ?>
                 <h3 class="farm-product__title"><?php echo htmlspecialchars($p["product_name"]); ?></h3>
 
                 <p class="farm-product__meta">
