@@ -10,7 +10,7 @@ require "db.php";
 $farm_id = (int)($_GET["id"] ?? 0);
 if ($farm_id <= 0) die("Invalid farm.");
 
-$stmt = $conn->prepare("SELECT farm_name, location, phone, short_description FROM farms WHERE farm_id = ?");
+$stmt = $conn->prepare("SELECT farm_name, location, phone, short_description, farm_image FROM farms WHERE farm_id = ?");
 $stmt->bind_param("i", $farm_id);
 $stmt->execute();
 $farm = $stmt->get_result()->fetch_assoc();
@@ -91,26 +91,48 @@ $stmt->close();
 
   <!-- Header area -->
   <section class="farm__header">
-    <div class="container farm__wrap">
-      <h1 class="farm__title"><?php echo htmlspecialchars($farm["farm_name"]); ?></h1>
+<div class="container farm__header-grid">
 
-      <ul class="farm__meta">
-        <li class="farm__meta-item">
-          <strong>Location:</strong> <?php echo htmlspecialchars($farm["location"]); ?>
-        </li>
+<div class="farm__info">
 
-        <?php if (!empty($farm["phone"])): ?>
-          <li class="farm__meta-item">
-            <strong>Phone:</strong> <?php echo htmlspecialchars($farm["phone"]); ?>
-          </li>
-        <?php endif; ?>
-      </ul>
+<h1 class="farm__title">
+<?php echo htmlspecialchars($farm["farm_name"]); ?>
+</h1>
 
-      <?php if (!empty($farm["short_description"])): ?>
-        <p class="farm__desc"><?php echo htmlspecialchars($farm["short_description"]); ?></p>
-      <?php endif; ?>
-    </div>
-  </section>
+<p class="farm__meta">
+<strong>Location:</strong>
+<?php echo htmlspecialchars($farm["location"]); ?>
+</p>
+
+<?php if (!empty($farm["phone"])): ?>
+<p class="farm__meta">
+<strong>Phone:</strong>
+<?php echo htmlspecialchars($farm["phone"]); ?>
+</p>
+<?php endif; ?>
+
+<?php if (!empty($farm["short_description"])): ?>
+<p class="farm__desc">
+<?php echo htmlspecialchars($farm["short_description"]); ?>
+</p>
+<?php endif; ?>
+
+</div>
+
+
+<?php if (!empty($farm["farm_image"])): ?>
+<div class="farm__image">
+
+<img
+class="farm-profile-img"
+src="<?php echo htmlspecialchars($farm["farm_image"]); ?>"
+alt="<?php echo htmlspecialchars($farm["farm_name"]); ?>">
+
+</div>
+<?php endif; ?>
+
+</div>
+</section>
 
   <!-- Products -->
   <section class="farm__content">

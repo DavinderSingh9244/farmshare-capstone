@@ -41,7 +41,7 @@ if ($q !== "") {
   <header class="navbar">
   <div class="navbar__inner container">
 
-    <a href="index.php" class="navbar__logo">FarmShare</a>
+<a href="<?php echo isset($_SESSION['user_id']) ? 'dashboard.php' : 'index.php'; ?>" class="navbar__logo">FarmShare</a>
 
     <!-- Desktop nav -->
     <nav class="navbar__nav navbar__nav--desktop" aria-label="Primary navigation">
