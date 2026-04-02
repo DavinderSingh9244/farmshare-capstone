@@ -270,7 +270,7 @@ p {
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-sm);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 200ms ease;
 }
 .btn--primary {
@@ -917,19 +917,18 @@ p {
   gap: var(--space-xl);
 }
 
-/* Two mini cards below farm card */
 .dashboard__mini-stats {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-xl);
 }
 
-/* ---------- PANELS ---------- */
 
 .dashboard__panel {
   background-color: var(--color-beige-light);
   border-radius: var(--radius-md);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
  
 }
 
@@ -938,7 +937,98 @@ p {
   font-weight: 650;
   color: var(--color-dark);
 }
+/* DELETE FARM BUTTON */
 
+.btn-delete-farm{
+padding:8px 18px;
+border:1px solid #333;
+border-radius:6px;
+background:white;
+cursor:pointer;
+}
+
+
+/* POPUP OVERLAY */
+
+.delete-popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+
+background:rgba(0,0,0,0.45);
+
+display:none;
+align-items:center;
+justify-content:center;
+
+z-index:9999;
+}
+
+.delete-popup.active{
+display:flex;
+}
+
+
+/* POPUP CARD */
+
+.delete-card{
+background:var(--color-beige-light);
+padding:35px;
+border-radius:12px;
+width: 400px;
+text-align:center;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+.delete-card h3{
+color:#2f5d31;
+font-size:16px;
+margin-bottom:20px;
+}
+
+
+/* BUTTON AREA */
+
+.delete-actions{
+display:flex;
+justify-content:center;
+gap:15px;
+}
+
+
+/* NO BUTTON */
+
+.btn-cancel{
+background:#2f5d31;
+color:white;
+border:none;
+padding:8px 25px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.btn-cancel:hover{
+background:#244a26;
+}
+
+
+/* YES BUTTON */
+
+.btn-danger{
+background:#c0392b;
+color:white;
+border:none;
+padding:8px 25px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.btn-danger:hover{
+background:#992d22;
+}
 /* ---------- STAT CARDS ---------- */
 
 .stat-card {
@@ -1036,11 +1126,6 @@ p {
 
 .product-card__input {
   width: 110px;
-}
-
-.btn--small {
-  padding: 6px 12px;
-  font-size: 14px;
 }
 
 .form--compact {
@@ -1308,4 +1393,58 @@ display:none;
   .farm-products {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* LOGOUT SCREEN */
+
+.logout-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-beige-light);
+  padding: var(--space-xl);
+}
+
+.logout-screen__card {
+  width: min(100%, 460px);
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  padding: var(--space-2xl);
+  text-align: center;
+}
+
+.logout-screen__title {
+  margin: 0 0 var(--space-2xl);
+  color: var(--color-primary);
+  font-size: 20px;
+}
+
+.logout-screen__text {
+  margin: 0 0 var(--space-xl);
+  color: var(--color-dark);
+  opacity: 0.85;
+}
+
+.logout-screen__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+.btn--secondary {
+  background: var(--color-white);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.input-error{
+  border:2px solid #c0392b !important;
+  background:#fff5f5;
+}
+
+.input-valid{
+  border:2px solid #2f5d31 !important;
+  background:#f7fcf7;
 }

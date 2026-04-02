@@ -5,36 +5,74 @@ $current_page = basename($_SERVER['PHP_SELF']);
 function nav_active($file, $current_page) {
   return $file === $current_page ? ' navbar__link--active' : '';
 }
+
 require "db.php";
 $msg = "";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $farm = trim($_POST["farm_name"] ?? "");
-  $loc  = trim($_POST["location"] ?? "");
-  $ph   = trim($_POST["phone"] ?? "");
-  $desc = trim($_POST["short_description"] ?? "");
-  $email= trim($_POST["email"] ?? "");
-  $pass = $_POST["password"] ?? "";
+  $farm  = trim($_POST["farm_name"] ?? "");
+  $loc   = trim($_POST["location"] ?? "");
+  $ph    = trim($_POST["phone"] ?? "");
+  $desc  = trim($_POST["short_description"] ?? "");
+  $email = trim($_POST["email"] ?? "");
+  $pass  = $_POST["password"] ?? "";
 
-  if ($farm && $loc && $email && $pass) {
-    $hash = password_hash($pass, PASSWORD_DEFAULT);
+  $has_error = false;
 
-    $stmt = $conn->prepare("INSERT INTO users (email, password_hash) VALUES (?, ?)");
-    if ($stmt && $stmt->bind_param("ss", $email, $hash) && $stmt->execute()) {
-      $user_id = $stmt->insert_id;
-      $stmt->close();
+  if ($farm === "" || strlen($farm) < 2 || strlen($farm) > 100) {
+    $msg = "Farm name is invalid.";
+    $has_error = true;
+  } elseif ($loc === "" || strlen($loc) < 2 || strlen($loc) > 100) {
+    $msg = "Location is invalid.";
+    $has_error = true;
+  } elseif ($ph !== "" && !preg_match('/^[0-9+\-\s()]{7,20}$/', $ph)) {
+    $msg = "Phone number is invalid.";
+    $has_error = true;
+  } elseif ($desc !== "" && strlen($desc) > 300) {
+    $msg = "Description is too long.";
+    $has_error = true;
+  } elseif ($email === "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $msg = "Email is invalid.";
+    $has_error = true;
+  } elseif ($pass === "" || strlen($pass) < 6 || strlen($pass) > 50) {
+    $msg = "Password must be 6 to 50 characters.";
+    $has_error = true;
+  }
 
-      $stmt = $conn->prepare("INSERT INTO farms (user_id, farm_name, location, phone, short_description) VALUES (?, ?, ?, ?, ?)");
-      $stmt->bind_param("issss", $user_id, $farm, $loc, $ph, $desc);
-      $stmt->execute();
-      $stmt->close();
+  if (!$has_error) {
+    try {
+      $check = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+      $check->bind_param("s", $email);
+      $check->execute();
+      $existing = $check->get_result()->fetch_assoc();
+      $check->close();
 
-      header("Location: login.php");
-      exit();
+      if ($existing) {
+        $msg = "This email is already registered.";
+      } else {
+        $hash = password_hash($pass, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("INSERT INTO users (email, password_hash) VALUES (?, ?)");
+        $stmt->bind_param("ss", $email, $hash);
+        $stmt->execute();
+        $user_id = $stmt->insert_id;
+        $stmt->close();
+
+        $stmt = $conn->prepare("INSERT INTO farms (user_id, farm_name, location, phone, short_description) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("issss", $user_id, $farm, $loc, $ph, $desc);
+        $stmt->execute();
+        $stmt->close();
+
+        header("Location: login.php");
+        exit();
+      }
+    } catch (Exception $e) {
+      $msg = "Database error: " . $e->getMessage();
     }
-    $msg = "Email already exists or error occurred.";
-  } else {
-    $msg = "Fill all required fields.";
   }
 }
 ?>
@@ -109,54 +147,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       </p>
     </div>
   </section>
-
+ 
   <section class="add-farm__content">
     <div class="container ">
+       <?php if ($msg): ?>
+      <p class="add-farm__message"><?php echo htmlspecialchars($msg); ?></p>
+    <?php endif; ?>
 
-      <?php if ($msg): ?>
-        <p class="add-farm__message">
-          <?php echo htmlspecialchars($msg); ?>
-        </p>
-      <?php endif; ?>
-
-      <form method="post" action="add-farm.php" class="form">
+      <form method="post" action="add-farm.php" class="form" novalidate>
 
         <fieldset class="form__fieldset">
           <legend class="form__legend">Farm Details</legend>
 
           <div class="form__group">
-            <label class="form__label">Farm name</label>
-            <input class="form__control" type="text" name="farm_name" required>
-          </div>
+  <label class="form__label">Farm name</label>
+  <input class="form__control" type="text" name="farm_name" required minlength="2" maxlength="100">
+</div>
 
-          <div class="form__group">
-            <label class="form__label">Location</label>
-            <input class="form__control" type="text" name="location" required>
-          </div>
+<div class="form__group">
+  <label class="form__label">Location</label>
+  <input class="form__control" type="text" name="location" required minlength="2" maxlength="100">
+</div>
 
-          <div class="form__group">
-            <label class="form__label">Phone</label>
-            <input class="form__control" type="tel" name="phone">
-          </div>
+<div class="form__group">
+  <label class="form__label">Phone</label>
+  <input class="form__control" type="tel" name="phone" pattern="[0-9+\-\s()]{7,20}" maxlength="20">
+</div>
 
-          <div class="form__group">
-            <label class="form__label">Short description</label>
-            <textarea class="form__control" name="short_description" rows="4"></textarea>
-          </div>
-        </fieldset>
+<div class="form__group">
+  <label class="form__label">Short description</label>
+  <textarea class="form__control" name="short_description" rows="4" maxlength="300"></textarea>
+</div>
 
-        <fieldset class="form__fieldset">
-          <legend class="form__legend">Account</legend>
+<div class="form__group">
+  <label class="form__label">Email</label>
+  <input class="form__control" type="email" name="email" required maxlength="100">
+</div>
 
-          <div class="form__group">
-            <label class="form__label">Email</label>
-            <input class="form__control" type="email" name="email" required>
-          </div>
-
-          <div class="form__group">
-            <label class="form__label">Password</label>
-            <input class="form__control" type="password" name="password" required>
-          </div>
+<div class="form__group">
+  <label class="form__label">Password</label>
+  <input class="form__control" type="password" name="password" required minlength="6" maxlength="50">
+</div>
         </fieldset>
 
         <div class="form__actions">
@@ -180,5 +211,92 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <p class="footer__text">© 2026 FarmShare. All Rights Reserved.</p>
   </div>
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const farm = document.querySelector("[name='farm_name']");
+  const location = document.querySelector("[name='location']");
+  const phone = document.querySelector("[name='phone']");
+  const email = document.querySelector("[name='email']");
+  const password = document.querySelector("[name='password']");
+
+  function setError(input){
+    input.classList.add("input-error");
+    input.classList.remove("input-valid");
+  }
+
+  function setValid(input){
+    input.classList.remove("input-error");
+    input.classList.add("input-valid");
+  }
+
+  /* FARM NAME */
+  function validateFarm(){
+    const value = farm.value.trim();
+    if(value.length < 2){
+      setError(farm);
+    } else {
+      setValid(farm);
+    }
+  }
+
+  /* LOCATION */
+  function validateLocation(){
+    const value = location.value.trim();
+    if(value.length < 2){
+      setError(location);
+    } else {
+      setValid(location);
+    }
+  }
+
+  /* PHONE */
+  function validatePhone(){
+    const phonePattern = /^[0-9+\-\s()]{7,20}$/;
+    if(!phonePattern.test(phone.value.trim())){
+      setError(phone);
+    } else {
+      setValid(phone);
+    }
+  }
+
+  /* EMAIL */
+  function validateEmail(){
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailPattern.test(email.value.trim())){
+      setError(email);
+    } else {
+      setValid(email);
+    }
+  }
+
+  /* PASSWORD */
+  function validatePassword(){
+    if(password.value.length < 6){
+      setError(password);
+    } else {
+      setValid(password);
+    }
+  }
+
+  /* EVENTS */
+
+  farm.addEventListener("blur", validateFarm);
+  farm.addEventListener("input", validateFarm);
+
+  location.addEventListener("blur", validateLocation);
+  location.addEventListener("input", validateLocation);
+
+  phone.addEventListener("blur", validatePhone);
+  phone.addEventListener("input", validatePhone);
+
+  email.addEventListener("blur", validateEmail);
+  email.addEventListener("input", validateEmail);
+
+  password.addEventListener("blur", validatePassword);
+  password.addEventListener("input", validatePassword);
+
+});
+</script>
 </body>
 </html>

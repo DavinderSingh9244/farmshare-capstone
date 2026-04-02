@@ -159,7 +159,7 @@ alt="<?php echo htmlspecialchars($farm["farm_name"]); ?>">
 
                 <p class="farm-product__meta">
                   <strong>Price:</strong> $<?php echo htmlspecialchars($p["price"]); ?><br>
-                  <strong>Quantity:</strong> <?php echo htmlspecialchars($p["quantity"]); ?>
+                  <strong>Available:</strong> <?php echo htmlspecialchars($p["quantity"]); ?>
                 </p>
               </article>
             <?php endwhile; ?>
